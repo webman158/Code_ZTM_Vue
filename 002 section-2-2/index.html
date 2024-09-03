@@ -1,0 +1,35 @@
+<!DOCTYPE>
+<html>
+
+<head>
+  <title>VueJS Course</title>
+  <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+<body>
+  <div id="app">
+    <label>
+      <input type="checkbox" v-model="isPurple" /> Purple
+    </label>
+
+    <select v-model="selectColor">
+      <option value="">白色</option>
+      <option value="text-black">黑色</option>
+      <option value="text-orange">橘色</option>
+    </select>
+
+    <hr>
+
+    <input type="range" min="100" max="500" v-model="size">
+
+    <div class="circle" :class="[selectColor, compIsPurple]"
+      :style="[compStyle, {transform: `rotate(${30 * size}deg)`}]">
+      Hi!
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

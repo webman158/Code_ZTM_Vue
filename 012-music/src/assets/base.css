@@ -1,0 +1,4 @@
+/* tailwind指令：作用是将tailwind的类注入到项目中 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

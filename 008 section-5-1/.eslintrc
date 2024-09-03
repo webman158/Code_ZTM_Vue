@@ -1,0 +1,10 @@
+{
+  "rules": {},
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2023,
+    "sourceType": "module"
+  }
+}

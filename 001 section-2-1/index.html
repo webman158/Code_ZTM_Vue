@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>VueJS Course</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+<body>
+  <div id="app" v-cloak>
+    <p>显示全名：{{ firstName }} {{ lastName }}</p>
+
+    <p>显示全名，大写： {{ `${firstName} ${lastName.toUpperCase()}` }}</p>
+
+    <p>函数调用、显示全名： {{ fullName }}</p>
+
+    <!-- 以下为错误写法 -->
+    <!-- <p>插值表达式中只能放表达式，不能放非表达式 {{ const a = 10}}</p> -->
+
+    <hr>
+
+    <label>firstName</label>
+    <input type="text" v-model="firstName">
+
+    <label>lastName</label>
+    <input type="text" v-model="lastName">
+    <!-- v-model的实现原理 -->
+    <input type="text" :value="lastName" @input="updateLastName">
+    <!-- 实现传参 -->
+    <input type="text" :value="lastName" @input.prevent.stop="updateLastName2('hello is msg', $event)">
+
+    <hr>
+    <!-- <a :href="{{url}}" target="_blank">Google</a> -->
+    <a :href="url" target="_blank">Google</a>
+
+    <hr>
+    <p>{{age}} {{ typeof age }}</p>
+    <input type="number" v-model.number="age">
+    <button @click="age++">增加+1</button>
+
+    <!-- .ctrl 修饰符 只有在按键有 ctrl 键的时候才会触发事件 -->
+    <button @click.ctrl="ageFn">减少-1</button>
+  </div>
+
+  <!-- <div id="app2">
+    {{ firstName }}
+
+    {{ lastName }}
+  </div> -->
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

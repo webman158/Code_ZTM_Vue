@@ -1,0 +1,36 @@
+<!DOCTYPE>
+<html>
+
+<head>
+  <title>VueJS Course</title>
+  <link rel="stylesheet" type="text/css" href="main.css" />
+</head>
+
+<body>
+  <div id="app">
+    <select v-model="mode">
+      <option value="1">选择v-if</option>
+      <option value="2">选择v-else-if</option>
+      <option value="3">选择v-else</option>
+    </select>
+
+    <p v-if="mode == 1">v-if的结果</p>
+
+    <!-- 可以通过 template 来进行条件渲染，从而不会让结构中多出无意义的标签 -->
+    <template v-else-if="mode == 2">
+      <h3>这是h3 结果</h3>
+      <span>v-else-if的结果</span>
+    </template>
+
+    <p v-else>v-else</p>
+
+    <!-- v-show 不能和 template 标签一起使用 -->
+    <template v-show="mode == 1">is v-show 实现的</template>
+    <i v-show="mode == 1">is v-show 实现的</i>
+  </div>
+
+  <script src="https://unpkg.com/vue@next"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
