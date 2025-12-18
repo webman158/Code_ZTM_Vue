@@ -7,6 +7,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/Code_ZTM_Vue/',
   plugins: [
     vue(),
     // VitePWA() 函数调用，将会生成 清单文件、还会创建一个 Service Worker 并自动注册。
@@ -28,9 +29,9 @@ export default defineConfig({
         theme_color: '#ff5e3a',
         icons: [
           {
-            src: '/assets/img/pwa-192x192.png',
+            src: 'assets/img/pwa-192x192.png',
             // 图标类型
-            type: 'imag e/png',
+            type: 'image/png',
             sizes: '192x192'
           }
         ]

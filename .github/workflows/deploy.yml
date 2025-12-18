@@ -1,0 +1,48 @@
+name: Deploy Music App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+    paths:
+      - '012-music/**' # 只有这个文件夹变动时才触发
+      - '.github/workflows/deploy.yml'
+
+# 允许 GITHUB_TOKEN 进行部署
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: '012-music/pnpm-lock.yaml'
+
+      - name: Install dependencies
+        working-directory: ./012-music
+        run: pnpm install
+
+      - name: Build
+        working-directory: ./012-music
+        # 注意：部署到子目录通常需要修改 vite.config.js 的 base 路径，这里先按默认构建
+        run: pnpm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./012-music/dist
