@@ -1,6 +1,57 @@
 # 012-music
 
-This template should help get you started developing with Vue 3 in Vite.
+## CI/CD 部署流程 (GitHub Actions + SSH)
+
+本项目 (`012-music`) 配置了自动化部署流程。当代码推送到 `main` 或 `master` 分支时，GitHub Actions 会自动构建项目并将产物部署到指定服务器。
+
+### 1. 工作流说明
+
+配置文件位于 `.github/workflows/deploy.yml`，主要包含以下步骤：
+
+1. **Checkout**: 检出代码。
+2. **Setup Environment**: 安装 Node.js 和 pnpm。
+3. **Install & Build**: 安装依赖并执行构建 (`pnpm run build`)。
+4. **Deploy**: 使用 SSH 将 `012-music/dist` 目录下的构建产物同步到远程服务器。
+
+### 2. 配置 GitHub Secrets
+
+为了让 GitHub Actions 能够访问你的服务器，需要在 GitHub 仓库的 `Settings` -> `Secrets and variables` -> `Actions` 中配置以下 Secrets：
+
+| Secret Name | 说明 | 示例 |
+| :--- | :--- | :--- |
+| `REMOTE_HOST` | 服务器 IP 地址或域名 | `1.2.3.4` |
+| `REMOTE_USER` | SSH 登录用户名 | `root` 或 `ubuntu` |
+| `REMOTE_TARGET` | 部署目标路径 (服务器上的绝对路径) | `/var/www/music-app` |
+| `SSH_PRIVATE_KEY` | SSH 私钥内容 | `-----BEGIN OPENSSH PRIVATE KEY----- ...` |
+
+### 3. 服务器配置指南
+
+#### 生成 SSH 密钥对
+
+在本地或服务器上生成 SSH 密钥对（如果不使用密码）：
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "github-actions-deploy" -f github_deploy_key -N ""
+```
+
+这将生成 `github_deploy_key` (私钥) 和 `github_deploy_key.pub` (公钥)。
+
+#### 配置服务器信任
+
+将 **公钥** (`github_deploy_key.pub`) 的内容追加到服务器目标用户的 `~/.ssh/authorized_keys` 文件中：
+
+```bash
+# 在服务器上执行
+cat github_deploy_key.pub >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+```
+
+#### 配置 GitHub
+
+将 **私钥** (`github_deploy_key`) 的内容复制并保存到 GitHub 仓库的 `SSH_PRIVATE_KEY` Secret 中。
+
+**注意**：请确保服务器上的目标路径 (`REMOTE_TARGET`) 存在，且 `REMOTE_USER` 对该目录拥有写入权限。
 
 ## 记录
 
